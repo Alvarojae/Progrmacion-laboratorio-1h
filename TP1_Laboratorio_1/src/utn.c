@@ -8,12 +8,13 @@ int factorial(float operador,float *Resultadofactorial)
     float contador;
     contador=operador;
     factorial=operador;
-
-    if(factorial==0)
+    if(Resultadofactorial != NULL)
     {
-    	*Resultadofactorial=1;
-    	retorno=0;
-    }
+		if(factorial==0)
+		{
+			*Resultadofactorial=1;
+			retorno=0;
+		}
 
     if(contador>=1)
     {
@@ -22,10 +23,10 @@ int factorial(float operador,float *Resultadofactorial)
     	{
     		contador=contador-1;
     		factorial=factorial*contador;
-
     	}
     	retorno=0;
     	*Resultadofactorial=factorial;
+    }
     }
     return retorno;
 
