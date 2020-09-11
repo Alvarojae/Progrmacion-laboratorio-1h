@@ -15,7 +15,7 @@ int factorial(float operador,float *Resultadofactorial)
     	retorno=0;
     }
 
-    if(contador>1)
+    if(contador>=1)
     {
 
     	while(contador>1)
