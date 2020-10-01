@@ -29,7 +29,13 @@ int initEmployees(Employee* list, int len)
 }
 
 
-
+/**
+ * \brief Busca usuarios que no contengan iformacion
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int buscarLibre(Employee* list, int len)
 {
 	int retorno =-1;
@@ -53,7 +59,6 @@ int buscarLibre(Employee* list, int len)
  * que nunca me devolvio antes
  */
 
-
 static int generarIdNuevo(void)
 {
 	static int id=0; // es global para solo la fn puede usarla
@@ -68,8 +73,7 @@ static int generarIdNuevo(void)
 /**
  * \brief Realiza el alta de un alumno solo si el indice corresponde a un Empty
  * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
- * \param int limite, es el limite de array
- * \param int indice, es el indice donde se cargara el alumno
+ * \param int len, es el limite de array
  * \return (-1) Error / (0) Ok
  *
  */
@@ -136,16 +140,15 @@ int printEmployee(Employee* list, int len)
 }
 
 
+
+
 /**
- * \brief Modifica los datos de un alumno solo si el indice corresponde a un NO Empty
+ * \brief Imprime los empleados  cargados
  * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
  * \param int limite, es el limite de array
- * \param int indice, es el indice donde se cargara el alumno
  * \return (-1) Error / (0) Ok
  *
  */
-
-
 int mostrarUsuario(Employee* list,int indice)
 {
 	int retorno = -1;
@@ -164,6 +167,16 @@ int mostrarUsuario(Employee* list,int indice)
 	return retorno;
 }
 
+
+
+/**
+ * \brief Imprime los empleados  cargados
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \param int id, es el idd que desea encontrar
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int findEmployeeById(Employee* list,int len,int id)
 {
 	int retorno =-1;
@@ -182,10 +195,18 @@ int findEmployeeById(Employee* list,int len,int id)
 }
 
 
+/**
+ * \brief Elimina un usuario poniendo el isEmpty=1
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \return (-1) Error / (0) Ok
+ *
+ */
 
 int removeEmployee(Employee* list, int len)
 {
 
+	int retorno = -1;
 	if(list != NULL && len >= 0 )
 	{
 		int aux;
@@ -193,25 +214,40 @@ int removeEmployee(Employee* list, int len)
 		int auxId;
 		if(	utn_getInt("\nIngrese el id del usuario que desea elimnar = ", "\n", &aux, 2, 9999999, 0)==0)
 		{
-			auxId=findEmployeeById(list, len, aux);
-			mostrarUsuario(list,auxId);
-		}
-		printf("\ndesea elimnar este usuario = (s - n)");
-		fflush(stdin);
-		scanf("%c",&Borrar);
-		if (Borrar=='s')
-		{
-			list[auxId].isEmpty=1;
-			printf("\nse elimino correctamente el usuario\n");
-		}else
-		{
-			printf("\nse cancelo la eliminacion del usuario\n");
+			if(findEmployeeById(list, len, aux)!= -1 )
+			{
+				auxId=findEmployeeById(list, len, aux);
+				mostrarUsuario(list,auxId);
+				printf("\ndesea elimnar este usuario = (s - n)");
+				fflush(stdin);
+				scanf("%c",&Borrar);
+				if (Borrar=='s')
+				{
+					list[auxId].isEmpty=1;
+					printf("\nse elimino correctamente el usuario\n");
+					retorno=1;
+				}else
+				{
+					printf("\nse cancelo la eliminacion del usuario\n");
+				}
+			}else
+			{
+				printf("\nNo encontro un usuario con el id que ingresaste\n");
+			}
 		}
 	}
- return -1;
+ return retorno;
 }
 
 
+/**
+ * \brief calcula el promedio de todos los usuarios ingresados
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \param float* pPromedio, devuelve el promedio al main
+ * \return (-1) Error / (0) Ok
+ *
+ */
 
 float calcularSalariosYpromedio(Employee *list,int len,float* pPromedio)
 {
@@ -231,11 +267,18 @@ float calcularSalariosYpromedio(Employee *list,int len,float* pPromedio)
 		*pPromedio=total/flag;
 		retorno = total;
 	}
-
 		return retorno;
 }
 
 
+
+/**
+ * \brief Modifica los datos de un alumno solo si el indice corresponde a un NO Empty
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int modificarEmployee(Employee list[],int len)
 {
 	int retorno = -1;
@@ -272,7 +315,6 @@ int modificarEmployee(Employee list[],int len)
 						{
 							strncpy(list[auxId].lastName ,bufferEmployee.lastName,51);
 						}
-
 						break;
 					case 3:
 						if(utn_getFloat("\nIngrese el sueldo = ", "\nError ingrese un valor correcto (0-9999999)", &bufferEmployee.salary, 0, 9999999, 2)== 0)
@@ -285,13 +327,12 @@ int modificarEmployee(Employee list[],int len)
 						{
 							list[auxId].sector = bufferEmployee.sector;
 						}
-
 						break;
 					case 5:
 						printf("salio exitosamente del modificar\n ");
 						break;
 					default:
-								printf("\nOpcion invalida!!\n\n");
+						printf("\nOpcion invalida!!\n\n");
 						break;
 				}
 				retorno = 1;
@@ -302,7 +343,14 @@ int modificarEmployee(Employee list[],int len)
 }
 
 
-
+/**
+ * \brief Calcula cuantos sueldos son mayores al promedio
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \param int promedio, es el promedio
+ * \return (-1) Error / (0) Ok
+ *
+ */
 int calcSueldosMayores(Employee list[],int len,int promedio)
 {
 	int retorno= -1;
@@ -322,7 +370,13 @@ int calcSueldosMayores(Employee list[],int len,int promedio)
 	return retorno;
 }
 
-
+/**
+ * \brief Acomoda los usuarios por sector y luego por apellido y los muestra
+ * \param Alumno arrayAlumnos[], Es el puntero al array de alumnos
+ * \param int limite, es el limite de array
+ * \return (-1) Error / (0) Ok
+ *
+ */
 
 int sortEmployeesLastNameSector(Employee* list, int len)
 {
@@ -364,7 +418,9 @@ int sortEmployeesLastNameSector(Employee* list, int len)
 
 
 
-
+/**
+ * \brief Muestra un menu
+ */
 
 
 int menu()
