@@ -407,7 +407,7 @@ int menu()
 	printf("9) Guardar los datos (data.bin)\n");
 	printf("10) Salir\n");
 
-    utn_getInt("\nIngrese opcion: ", "Ingrese una opcion entre 1 y 9", &opcion, 1, 10, 1);
+    utn_getInt("\nIngrese opcion: ", "Ingrese una opcion entre 1 y 10", &opcion, 1, 10, 1);
 
     return opcion;
 }
