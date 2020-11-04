@@ -37,7 +37,6 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 			}
 		}
 	}
-	fclose(pFile);
 	return retorno;
 }
 
@@ -56,18 +55,16 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 		while( !feof(pFile) )
 		{
 			Employee* auxEmp = employee_new();
-			var = fread(auxEmp,sizeof(Employee),1,pFile);
-			if ( var == 1 )
+			if (auxEmp != NULL)
 			{
-				if (auxEmp != NULL)
+				var = fread(auxEmp,sizeof(Employee),1,pFile);
+				if ( var == 1 )
 				{
 					ll_add(pArrayListEmployee, auxEmp);
-					employee_generarNuevoId();
 				}
+				retorno = 0;
 			}
-			retorno = 0;
 		}
 	}
-	fclose(pFile);
 	return retorno;
 }
