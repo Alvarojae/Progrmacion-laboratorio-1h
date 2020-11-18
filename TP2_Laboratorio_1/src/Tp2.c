@@ -34,7 +34,7 @@ int main(void) {
 				{
 					if(modificarEmployee(empleados, 5)!=-1)
 					{
-					printf("\nse pudo modificar correctamente");
+						printf("\nse pudo modificar correctamente");
 					}else
 					{
 						printf("\nNo se pudo modificar");
