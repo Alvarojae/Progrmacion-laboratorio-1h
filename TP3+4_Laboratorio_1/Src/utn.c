@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../inc/utn.h"
+#include "utn.h"
 
 
 
@@ -405,9 +405,13 @@ int menu()
 	printf("7) Ordenar empleados\n");
 	printf("8) Guardar los datos (data.csv)\n");
 	printf("9) Guardar los datos (data.bin)\n");
-	printf("10) Salir\n");
+	printf("10) test1\n");
+	printf("11) test2\n");
+	printf("12) test3\n");
+	printf("13) test4\n");
+	printf("14) Salir\n");
 
-    utn_getInt("\nIngrese opcion: ", "Ingrese una opcion entre 1 y 10", &opcion, 1, 10, 1);
+    utn_getInt("\nIngrese opcion: ", "Ingrese una opcion entre 1 y 10", &opcion, 1, 14, 1);
 
     return opcion;
 }

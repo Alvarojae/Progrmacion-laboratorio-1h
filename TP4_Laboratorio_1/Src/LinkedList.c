@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "LinkedList.h"
+#include "../inc/LinkedList.h"
 
 
 static Node* getNode(LinkedList* this, int nodeIndex);
@@ -30,7 +30,6 @@ LinkedList* ll_newLinkedList(void)
  * \return int Retorna (-1) si el puntero es NULL o la cantidad de elementos de la lista
  *
  */
-
 int ll_len(LinkedList* this)
 {
 	int returnAux = -1;
@@ -551,21 +550,6 @@ int ll_map(LinkedList* this, int (*pFunc)(void*))
     return returnAux;
 }
 
-int ll_mapOne(LinkedList* this, int (*pFunc)(void*), int index)
-{
-    int returnAux =-1;
-    void* pElemento;
-    if(this!=NULL && index >=0 && index < ll_len(this))
-    {
-		pElemento=ll_get(this, index);
-		if(pFunc(pElemento)==0)
-		{
-			returnAux=0;
-		}
-    }
-    return returnAux;
-}
-
 int ll_filter(LinkedList* this, int (*pFunc)(void*))
 {
     int returnAux =0;
@@ -575,7 +559,7 @@ int ll_filter(LinkedList* this, int (*pFunc)(void*))
         for (int i = 0;i<ll_len(this) ; i++)
         {
         	pAux=ll_get(this, i);
-            if (pFunc(pAux)==1)
+            if (pFunc(pAux)==0)
             {
             	ll_remove(this, i);
             	i--;
@@ -586,61 +570,35 @@ int ll_filter(LinkedList* this, int (*pFunc)(void*))
     return returnAux;
 }
 
-LinkedList* ll_filterAndAdd(LinkedList* this, int (*pFunc)(void*))
+int ll_reduceInt(LinkedList* this, int (*pFunc)(void*))
 {
-	LinkedList* thisNew  = NULL ;
-    void* pAux;
-    if(this!=NULL)
-    {
-    	thisNew  = ll_newLinkedList();
-        for (int i = 0;i<ll_len(this) ; i++)
-        {
-        	pAux=ll_get(this, i);
-            if (pFunc(pAux)==1)
-            {
-            	ll_add(this, pAux);
-            }
-        }
-    }
-    return thisNew;
-}
-
-int ll_reduceInt(LinkedList* this, int (*pFunc)(void*),int* pResultado)
-{
-	int returnAux =-1;
+	int returnAux =0;
 	int len = ll_len(this);
-	int aux=0;
 	void* pElemento;
 	if(this!=NULL)
 	{
 		for (int i = 0;i<len;i++)
 		{
 			pElemento=ll_get(this, i);
-			aux= aux + pFunc(pElemento);
+			returnAux= returnAux + pFunc(pElemento);
 		}
-		returnAux =0;
-		*pResultado=aux;
 	}
 	return returnAux;
 }
 
 
-int ll_reduceFloat(LinkedList* this, float (*pFunc)(void*),float* pResultado)
+float ll_reduceFloat(LinkedList* this, float (*pFunc)(void*))
 {
-	float returnAux =-1;
+	float returnAux =0;
 	int len = ll_len(this);
-	float aux=0;
 	void* pElemento;
 	if(this!=NULL)
 	{
 		for (int i = 0;i<len;i++)
 		{
 			pElemento=ll_get(this, i);
-			aux = aux + pFunc(pElemento);
-			returnAux=1;
+			returnAux= returnAux + pFunc(pElemento);
 		}
-		*pResultado=aux;
-
 	}
 	return returnAux;
 }
